@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-
 import 'constants.dart';
+import 'helper.dart';
+import 'home_screen.dart';
+import 'note_model.dart';
 
 class DiscriptionScreen extends StatefulWidget {
   const DiscriptionScreen({Key? key}) : super(key: key);
@@ -10,7 +12,8 @@ class DiscriptionScreen extends StatefulWidget {
 }
 
 class _DiscriptionScreenState extends State<DiscriptionScreen> {
-  String? title, date, discription;
+  String? title, date, discription,done;
+  Note note = Note();
 
   @override
   Widget build(BuildContext context) {
@@ -69,14 +72,15 @@ class _DiscriptionScreenState extends State<DiscriptionScreen> {
                   borderSide: BorderSide(color: primarydarkcolor, width: 0.5),
                 ),
               ),
-              onChanged:(value){
+              onChanged: (value) {
                 setState(() {
-                  title=value;
+                  title = value;
                 });
-              } ,
+              },
             ),
             SizedBox(height: 10),
             TextFormField(
+              keyboardType: TextInputType.datetime,
               decoration: const InputDecoration(
                 labelText: "Date",
                 labelStyle: TextStyle(color: white),
@@ -103,11 +107,11 @@ class _DiscriptionScreenState extends State<DiscriptionScreen> {
                   borderSide: BorderSide(color: primarydarkcolor, width: 0.5),
                 ),
               ),
-              onChanged:(value){
+              onChanged: (value) {
                 setState(() {
-                  date=value;
+                  date = value;
                 });
-              } ,
+              },
             ),
             SizedBox(height: 10),
             TextFormField(
@@ -138,29 +142,41 @@ class _DiscriptionScreenState extends State<DiscriptionScreen> {
                   borderSide: BorderSide(color: primarydarkcolor, width: 0.5),
                 ),
               ),
-              onChanged:(value){
+              onChanged: (value) {
                 setState(() {
-                  discription=value;
+                  discription = value;
                 });
-              } ,
+              },
             ),
             SizedBox(height: 10),
-              ElevatedButton.icon(
-                onPressed: () {},
-                style: ElevatedButton.styleFrom(
-                  primary: primarydarkcolor,
-                ),
-                icon: Icon(
-                  Icons.add,
-                  size: 18,
-                  color: white,
-                ),
-                label: Text(
-                  "Add ",
-                  style: TextStyle(color: white),
-                ),
-              ),
+            ElevatedButton.icon(
+              onPressed: () {
+                note.insertdb({
+                'discription':discription,
+                  'title':title,
+                  'date':date,
+                  'done':"Done",
+                }).then((value) {
+                  print('Note inserted successfully:$value');
+                Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context) {
+                  return HomeScreen();
+                }));
 
+                });
+              },
+              style: ElevatedButton.styleFrom(
+                primary: primarydarkcolor,
+              ),
+              icon: Icon(
+                Icons.add,
+                size: 18,
+                color: white,
+              ),
+              label: Text(
+                "Add ",
+                style: TextStyle(color: white),
+              ),
+            ),
           ],
         ),
       ),

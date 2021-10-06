@@ -10,7 +10,7 @@ class ReviewScreen extends StatefulWidget {
   var date;
   var done;
 
-  ReviewScreen(this.id, this.discription, this.title, this.date, this.done);
+  ReviewScreen({this.id, this.discription, this.title, this.date, this.done});
 
   @override
   _ReviewScreenState createState() => _ReviewScreenState();
@@ -24,7 +24,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
     return Scaffold(
       appBar: AppBar(
         //toolbarHeight: 90,
-        title:  Text("$widget.title"),
+        title:  Text("${widget.title}"),
         centerTitle: true,
         leading: IconButton(
           onPressed: () {
